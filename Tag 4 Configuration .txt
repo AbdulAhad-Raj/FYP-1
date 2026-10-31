@@ -1,0 +1,72 @@
+
+#include <WiFi.h>
+
+// =====================================
+// SENTINEL-X: TAG-04 CONFIGURATION
+// =====================================
+
+const char* TAG_ID = "TAG-04";
+const char* TAG_SSID = "SX_TAG_04";
+const char* TAG_PASSWORD = "SentinelTag26";
+
+const int WIFI_CHANNEL = 6;
+const int MAX_CONNECTIONS = 4;
+
+void setup() {
+
+  Serial.begin(115200);
+  delay(1000);
+
+  Serial.println();
+  Serial.println("================================");
+  Serial.println("       SENTINEL-X TAG-04");
+  Serial.println("================================");
+
+  WiFi.mode(WIFI_AP);
+
+  Serial.println("Starting Wi-Fi Access Point...");
+
+  bool result = WiFi.softAP(
+    TAG_SSID,
+    TAG_PASSWORD,
+    WIFI_CHANNEL,
+    false,
+    MAX_CONNECTIONS
+  );
+
+  if (result) {
+
+    Serial.println();
+    Serial.println("ACCESS POINT STARTED SUCCESSFULLY");
+
+    Serial.print("Tag ID: ");
+    Serial.println(TAG_ID);
+
+    Serial.print("Wi-Fi SSID: ");
+    Serial.println(TAG_SSID);
+
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.softAPIP());
+
+    Serial.print("Tag MAC Address: ");
+    Serial.println(WiFi.softAPmacAddress());
+
+    Serial.print("Wi-Fi Channel: ");
+    Serial.println(WIFI_CHANNEL);
+
+    Serial.println();
+    Serial.println("TAG-04 IS READY FOR DETECTION");
+
+  }
+  else {
+
+    Serial.println("ERROR: ACCESS POINT FAILED TO START");
+
+  }
+}
+
+void loop() {
+
+  delay(1000);
+
+}
