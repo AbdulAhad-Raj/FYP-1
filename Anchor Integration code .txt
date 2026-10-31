@@ -1,0 +1,174 @@
+
+#include <WiFi.h>
+
+// =============================================
+// SENTINEL-X: MULTI-TAG ANCHOR SCANNER
+// =============================================
+
+// CHANGE THIS ID FOR EACH ANCHOR
+const char* ANCHOR_ID = "ANC-01";
+
+// Four tracking tag SSIDs
+const char* TAG_01 = "SX_TAG_01";
+const char* TAG_02 = "SX_TAG_02";
+const char* TAG_03 = "SX_TAG_03";
+const char* TAG_04 = "SX_TAG_04";
+
+// Scan interval: 3 seconds
+const unsigned long SCAN_INTERVAL = 3000;
+
+unsigned long previousScanTime = 0;
+
+// =============================================
+// SETUP
+// =============================================
+
+void setup() {
+
+  Serial.begin(115200);
+  delay(1000);
+
+  Serial.println();
+  Serial.println("====================================");
+  Serial.println("       SENTINEL-X ANCHOR");
+  Serial.println("       MULTI-TAG SCANNER");
+  Serial.println("====================================");
+
+  Serial.print("Anchor ID: ");
+  Serial.println(ANCHOR_ID);
+
+  // Configure ESP32 as Wi-Fi station
+  WiFi.mode(WIFI_STA);
+
+  // Disconnect from any connected Wi-Fi network
+  WiFi.disconnect();
+
+  delay(500);
+
+  Serial.println("Anchor scanner initialized.");
+  Serial.println("Searching for four tracking tags...");
+}
+
+// =============================================
+// PRINT TAG MEASUREMENT
+// =============================================
+
+void printTagMeasurement(
+  int networkIndex,
+  const char* tagID
+) {
+
+  Serial.println();
+  Serial.println("------------------------------------");
+  Serial.println("TAG DETECTED SUCCESSFULLY!");
+
+  Serial.print("Anchor ID: ");
+  Serial.println(ANCHOR_ID);
+
+  Serial.print("Detected Tag: ");
+  Serial.println(tagID);
+
+  Serial.print("RSSI: ");
+  Serial.print(WiFi.RSSI(networkIndex));
+  Serial.println(" dBm");
+
+  Serial.print("Wi-Fi Channel: ");
+  Serial.println(WiFi.channel(networkIndex));
+
+  Serial.print("Tag MAC/BSSID: ");
+  Serial.println(WiFi.BSSIDstr(networkIndex));
+
+  Serial.println("Measurement completed.");
+  Serial.println("------------------------------------");
+}
+
+// =============================================
+// MAIN LOOP
+// =============================================
+
+void loop() {
+
+  unsigned long currentTime = millis();
+
+  if (currentTime - previousScanTime >= SCAN_INTERVAL) {
+
+    previousScanTime = currentTime;
+
+    Serial.println();
+    Serial.println("====================================");
+    Serial.println("Scanning for Sentinel-X tracking tags");
+    Serial.println("====================================");
+
+    // Scan nearby Wi-Fi networks
+    int networkCount = WiFi.scanNetworks(false, true);
+
+    // Track which tags were detected
+    bool tag01Found = false;
+    bool tag02Found = false;
+    bool tag03Found = false;
+    bool tag04Found = false;
+
+    if (networkCount < 0) {
+
+      Serial.println("Wi-Fi scan failed.");
+
+    }
+    else {
+
+      for (int i = 0; i < networkCount; i++) {
+
+        String detectedSSID = WiFi.SSID(i);
+
+        if (detectedSSID == TAG_01) {
+
+          tag01Found = true;
+          printTagMeasurement(i, "TAG-01");
+
+        }
+
+        else if (detectedSSID == TAG_02) {
+
+          tag02Found = true;
+          printTagMeasurement(i, "TAG-02");
+
+        }
+
+        else if (detectedSSID == TAG_03) {
+
+          tag03Found = true;
+          printTagMeasurement(i, "TAG-03");
+
+        }
+
+        else if (detectedSSID == TAG_04) {
+
+          tag04Found = true;
+          printTagMeasurement(i, "TAG-04");
+
+        }
+      }
+
+      // Report missing tags
+      Serial.println();
+      Serial.println("========== SCAN SUMMARY ==========");
+
+      Serial.print("TAG-01: ");
+      Serial.println(tag01Found ? "DETECTED" : "NOT FOUND");
+
+      Serial.print("TAG-02: ");
+      Serial.println(tag02Found ? "DETECTED" : "NOT FOUND");
+
+      Serial.print("TAG-03: ");
+      Serial.println(tag03Found ? "DETECTED" : "NOT FOUND");
+
+      Serial.print("TAG-04: ");
+      Serial.println(tag04Found ? "DETECTED" : "NOT FOUND");
+
+      Serial.println("==================================");
+    }
+
+    // Clear old scan results from memory
+    WiFi.scanDelete();
+
+  }
+}
