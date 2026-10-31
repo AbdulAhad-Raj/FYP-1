@@ -1,0 +1,102 @@
+
+#include <WiFi.h>
+
+// Anchor identification
+const char* ANCHOR_ID = "ANC-01";
+
+// Tracking tag SSIDs
+const char* TAG_01 = "SX_TAG_01";
+const char* TAG_02 = "SX_TAG_02";
+
+// Scan every 3 seconds
+const unsigned long SCAN_INTERVAL = 3000;
+unsigned long previousScanTime = 0;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000);
+
+  Serial.println();
+  Serial.println("================================");
+  Serial.println("       SENTINEL-X ANC-01");
+  Serial.println("    MULTI-TAG WIFI SCANNER");
+  Serial.println("================================");
+
+  WiFi.mode(WIFI_STA);
+  WiFi.disconnect();
+
+  delay(500);
+}
+
+void loop() {
+
+  unsigned long currentTime = millis();
+
+  if (currentTime - previousScanTime >= SCAN_INTERVAL) {
+
+    previousScanTime = currentTime;
+
+    Serial.println();
+    Serial.println("Scanning for tracking tags...");
+
+    int networkCount = WiFi.scanNetworks(false, true);
+
+    bool tag01Found = false;
+    bool tag02Found = false;
+
+    if (networkCount < 0) {
+      Serial.println("Wi-Fi scan failed.");
+    }
+    else {
+
+      for (int i = 0; i < networkCount; i++) {
+
+        String detectedSSID = WiFi.SSID(i);
+
+        if (detectedSSID == TAG_01) {
+
+          tag01Found = true;
+
+          Serial.println("--- TAG-01 DETECTED ---");
+          Serial.print("RSSI: ");
+          Serial.print(WiFi.RSSI(i));
+          Serial.println(" dBm");
+
+          Serial.print("BSSID: ");
+          Serial.println(WiFi.BSSIDstr(i));
+
+          Serial.print("Channel: ");
+          Serial.println(WiFi.channel(i));
+        }
+
+        if (detectedSSID == TAG_02) {
+
+          tag02Found = true;
+
+          Serial.println("--- TAG-02 DETECTED ---");
+          Serial.print("RSSI: ");
+          Serial.print(WiFi.RSSI(i));
+          Serial.println(" dBm");
+
+          Serial.print("BSSID: ");
+          Serial.println(WiFi.BSSIDstr(i));
+
+          Serial.print("Channel: ");
+          Serial.println(WiFi.channel(i));
+        }
+      }
+
+      if (!tag01Found) {
+        Serial.println("TAG-01 not found.");
+      }
+
+      if (!tag02Found) {
+        Serial.println("TAG-02 not found.");
+      }
+    }
+
+    WiFi.scanDelete();
+
+    Serial.println("Scan completed.");
+  }
+}

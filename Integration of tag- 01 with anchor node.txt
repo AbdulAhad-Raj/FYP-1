@@ -1,0 +1,116 @@
+#include <WiFi.h>
+
+// ========================================
+// SENTINEL-X ANCHOR NODE CONFIGURATION
+// ========================================
+
+const char* ANCHOR_ID = "ANC-01";
+const char* TARGET_SSID = "SX_TAG_01";
+
+const unsigned long SCAN_INTERVAL = 3000;
+
+unsigned long previousScanTime = 0;
+
+// ========================================
+// SETUP
+// ========================================
+
+void setup() {
+
+  Serial.begin(115200);
+  delay(1000);
+
+  Serial.println();
+  Serial.println("====================================");
+  Serial.println(" SENTINEL-X ANCHOR DETECTION SYSTEM");
+  Serial.println("====================================");
+
+  Serial.print("Anchor ID: ");
+  Serial.println(ANCHOR_ID);
+
+  Serial.print("Target Tag: ");
+  Serial.println(TARGET_SSID);
+
+  // Configure ESP32 as Wi-Fi station
+  WiFi.mode(WIFI_STA);
+
+  // Disconnect from any previously connected AP
+  WiFi.disconnect();
+
+  delay(500);
+
+  Serial.println("Wi-Fi scanner initialized.");
+  Serial.println("Waiting to detect TAG-01...");
+}
+
+// ========================================
+// MAIN LOOP
+// ========================================
+
+void loop() {
+
+  unsigned long currentTime = millis();
+
+  if (currentTime - previousScanTime >= SCAN_INTERVAL) {
+
+    previousScanTime = currentTime;
+
+    Serial.println();
+    Serial.println("------------------------------------");
+    Serial.println("Scanning for Sentinel-X tracking tag");
+
+    // Scan nearby Wi-Fi networks
+    int networkCount = WiFi.scanNetworks(false, true);
+
+    bool tagFound = false;
+
+    if (networkCount < 0) {
+
+      Serial.println("ERROR: Wi-Fi scan failed.");
+
+    } else {
+
+      for (int i = 0; i < networkCount; i++) {
+
+        String detectedSSID = WiFi.SSID(i);
+
+        // Check whether this is our tracking tag
+        if (detectedSSID == TARGET_SSID) {
+
+          tagFound = true;
+
+          Serial.println();
+          Serial.println("TAG DETECTED SUCCESSFULLY!");
+
+          Serial.print("Anchor ID: ");
+          Serial.println(ANCHOR_ID);
+
+          Serial.print("Detected Tag: ");
+          Serial.println(detectedSSID);
+
+          Serial.print("RSSI: ");
+          Serial.print(WiFi.RSSI(i));
+          Serial.println(" dBm");
+
+          Serial.print("Wi-Fi Channel: ");
+          Serial.println(WiFi.channel(i));
+
+          Serial.print("Tag MAC/BSSID: ");
+          Serial.println(WiFi.BSSIDstr(i));
+
+          Serial.println("Measurement completed.");
+        }
+      }
+
+      if (!tagFound) {
+
+        Serial.println("TAG-01 NOT FOUND.");
+        Serial.println("Check whether TAG-01 is powered on.");
+
+      }
+    }
+
+    // Clear previous scan results
+    WiFi.scanDelete();
+  }
+}
