@@ -1,7 +1,0 @@
-SENTINEL-X SESSION 1 MODEL EVALUATION
-Total readings: 1182
-Training readings: 945
-Testing readings: 237
-MAE: 0.516 metres
-RMSE: 0.793 metres
-R2: 0.675
