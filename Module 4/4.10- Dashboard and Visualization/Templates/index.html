@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel-X | Intelligent Asset Tracking</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="app-container">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="brand-icon">S</div>
+            <div>
+                <h2>SENTINEL-X</h2>
+                <small>INTELLIGENT TRACKING</small>
+            </div>
+        </div>
+
+        <div class="nav-label">MAIN MENU</div>
+
+        <a href="#overview" class="nav-item active">Overview</a>
+        <a href="#positioning" class="nav-item">Live Positioning</a>
+        <a href="#sensors" class="nav-item">Sensor Monitoring</a>
+        <a href="#history" class="nav-item">Position History</a>
+
+        <div class="sidebar-footer">
+            <div class="system-indicator"></div>
+            System Dashboard
+            <small>Local Monitoring Interface</small>
+        </div>
+    </aside>
+
+    <main class="main-content">
+
+        <header class="topbar">
+            <div>
+                <h1>Asset Tracking Dashboard</h1>
+                <p>Real-time indoor positioning and monitoring</p>
+            </div>
+
+            <div class="header-status">
+                <span class="status-dot"></span>
+                Backend Connected
+            </div>
+        </header>
+
+        <section id="overview">
+
+            <div class="section-heading">
+                <div>
+                    <h2>System Overview</h2>
+                    <p>Current Sentinel-X monitoring statistics</p>
+                </div>
+                <span id="lastUpdated">Waiting for data...</span>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <span>Registered Assets</span>
+                    <h2 id="assetCount">--</h2>
+                    <small>Assets in database</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Saved Position Records</span>
+                    <h2 id="positionCount">--</h2>
+                    <small>Historical records</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Latest X Coordinate</span>
+                    <h2 id="coordinateX">--</h2>
+                    <small>Horizontal position (m)</small>
+                </div>
+
+                <div class="stat-card">
+                    <span>Latest Y Coordinate</span>
+                    <h2 id="coordinateY">--</h2>
+                    <small>Vertical position (m)</small>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="positioning" class="content-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Indoor Positioning Map</h2>
+                    <p>Estimated asset coordinates in the sensor area</p>
+                </div>
+            </div>
+
+            <div class="panel position-panel">
+
+                <div class="map-information">
+                    <div>
+                        <span class="legend-dot asset-dot"></span>
+                        Tracked Asset
+                    </div>
+                    <div>
+                        <span class="legend-dot center-dot"></span>
+                        Reference Centre
+                    </div>
+                </div>
+
+                <div class="map-wrapper">
+                    <div class="axis-label y-axis">Y (metres)</div>
+
+                    <div class="position-map">
+
+                        <div class="sensor north">NORTH<br>SENSOR 01</div>
+                        <div class="sensor south">SOUTH<br>SENSOR 02</div>
+                        <div class="sensor east">EAST<br>SENSOR 03</div>
+                        <div class="sensor west">WEST<br>SENSOR 04</div>
+
+                        <div class="map-grid"></div>
+
+                        <div class="center-marker"></div>
+
+                        <div id="assetMarker" class="asset-marker">
+                            <span></span>
+                            <small>Asset_001</small>
+                        </div>
+
+                    </div>
+
+                    <div class="axis-label x-axis">X (metres)</div>
+                </div>
+
+                <div class="coordinate-display">
+                    <div>
+                        <span>Asset ID</span>
+                        <strong id="mapAssetId">--</strong>
+                    </div>
+                    <div>
+                        <span>X Coordinate</span>
+                        <strong id="mapX">--</strong>
+                    </div>
+                    <div>
+                        <span>Y Coordinate</span>
+                        <strong id="mapY">--</strong>
+                    </div>
+                </div>
+
+                <p class="map-note">
+                    The map displays model-estimated coordinates.
+                    It represents the calibrated test area, not a
+                    geographic floor plan.
+                </p>
+
+            </div>
+        </section>
+
+        <section id="sensors" class="content-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Four-Sensor RSSI Monitoring</h2>
+                    <p>Latest received Wi-Fi signal strength</p>
+                </div>
+            </div>
+
+            <div class="sensor-grid" id="sensorGrid">
+
+                <div class="sensor-card">
+                    <span>North</span>
+                    <h2>-- dBm</h2>
+                </div>
+
+                <div class="sensor-card">
+                    <span>South</span>
+                    <h2>-- dBm</h2>
+                </div>
+
+                <div class="sensor-card">
+                    <span>East</span>
+                    <h2>-- dBm</h2>
+                </div>
+
+                <div class="sensor-card">
+                    <span>West</span>
+                    <h2>-- dBm</h2>
+                </div>
+
+            </div>
+
+            <div class="panel chart-panel">
+                <h3>Sensor Signal Comparison</h3>
+                <canvas id="sensorChart"></canvas>
+            </div>
+
+        </section>
+
+        <section id="history" class="content-section">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Position History</h2>
+                    <p>Latest recorded asset positions</p>
+                </div>
+            </div>
+
+            <div class="panel table-panel">
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Record ID</th>
+                                <th>Timestamp</th>
+                                <th>Asset</th>
+                                <th>X (m)</th>
+                                <th>Y (m)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="historyTable">
+                            <tr>
+                                <td colspan="5">Loading records...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+        </section>
+
+        <footer>
+            SENTINEL-X | Secure AI-Powered Wi-Fi Indoor Positioning
+            and Intelligent Asset Tracking System
+        </footer>
+
+    </main>
+</div>
+
+<script src="{{ url_for('static', filename='dashboard.js') }}"></script>
+
+</body>
+</html>
