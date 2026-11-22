@@ -1,0 +1,16 @@
+SENTINEL-X ORIGINAL FIRMWARE RECORD
+
+Board ID: TAG-03
+Board Model: ESP32-WROOM-32
+COM Port: COM6
+Original Role: Wi-Fi Tracking Tag
+
+SSID: SX_TAG_03
+BSSID: 8C:94:DF:6D:99:5D
+IP Address: 192.168.4.1
+Wi-Fi Channel: 6
+
+Firmware Status: Running Successfully
+Serial Verification: Successful
+
+Planned New Role: ESP32 Sensor 03 (East)

@@ -1,0 +1,18 @@
+SENTINEL-X ORIGINAL FIRMWARE RECORD
+
+Board ID: ANC-01
+Board Model: ESP32-WROOM-32
+COM Port: COM6
+Original Role: RSSI Detection Anchor
+
+Firmware: Module 2 RSSI Data Collection
+
+Serial Output:
+SENTINEL-X MODULE 2
+RSSI DATA COLLECTION
+Anchor: ANC-01
+
+CSV Fields:
+ANCHOR_ID,TAG_ID,RSSI_DBM,CHANNEL,BSSID,ELAPSED_MS
+
+Firmware Status: Startup Verified
