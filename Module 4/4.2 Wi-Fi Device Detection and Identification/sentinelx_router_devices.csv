@@ -1,0 +1,6 @@
+Timestamp,IP_Address,Hostname,MAC_Address,Device_Type,Mode,Port,Lease_Time,Router_RSSI_dBm,Negotiation_Rate
+2026-11-14T21:30:12,192.168.1.6,Sparx-Neo-7-Ultra,40:63:96:02:a8:63,Phone,NoLink,5,586062,-40,65
+2026-11-14T21:30:12,192.168.1.4,AHAD-LAPTOP1,dc:fb:48:70:62:78,Computer,NoLink,5,582199,-61,144
+2026-11-14T21:30:12,192.168.1.7,Infinix-NOTE-10,b2:bf:3f:73:01:38,Phone,NoLink,5,580433,-52,65
+2026-11-14T21:30:12,192.168.1.8,Infinix-SMART-7-HD,0a:38:5a:7e:d4:f2,Phone,NoLink,5,603316,-66,72
+2026-11-14T21:30:12,192.168.1.18,,ca:f6:11:79:7a:5b,Phone,--,5,602845,-89,13
