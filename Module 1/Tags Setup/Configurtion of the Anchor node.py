@@ -14,7 +14,7 @@ void setup() {
 
   Serial.println();
   Serial.println("================================");
-  Serial.println("       SENTINEL-X TEST");
+  Serial.println("       SENTINEL-X TEST"); 
   Serial.println("================================");
 
   Serial.print("Device name: ");
