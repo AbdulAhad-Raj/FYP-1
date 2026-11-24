@@ -1,0 +1,2 @@
+Asset_ID,Asset_Name,Asset_Category,Device_Type,Registered_MAC,Registered_Hostname,Description,Is_Active
+Asset_001,Infinix-NOTE-10,Phone,Android,b2:bf:3f:73:01:38,Infinix-NOTE-10,A mobile Phon,TRUE
