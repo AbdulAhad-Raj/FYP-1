@@ -2,7 +2,7 @@
 #include <WiFi.h>
 
 // =====================================
-// SENTINEL-X: TAG-03 CONFIGURATION
+// SENTINEL-X: TAG-03 CONFIGURATION 
 // =====================================
 
 const char* TAG_ID = "TAG-03";
