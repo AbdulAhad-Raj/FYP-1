@@ -1,0 +1,6 @@
+﻿Detection_Status,Asset_ID,Asset_Name,Asset_Category,Detected_Hostname,Detected_MAC,Detected_IP,Device_Type,Router_RSSI,Match_Method
+UNKNOWN,,,,Sparx-Neo-7-Ultra,40:63:96:02:a8:63,192.168.1.6,Phone,,NONE
+UNKNOWN,,,,AHAD-LAPTOP1,dc:fb:48:70:62:78,192.168.1.4,Computer,,NONE
+REGISTERED,Asset_001,Infinix-NOTE-10,Phone,Infinix-NOTE-10,b2:bf:3f:73:01:38,192.168.1.7,Phone,,MAC_ADDRESS
+UNKNOWN,,,,Infinix-SMART-7-HD,0a:38:5a:7e:d4:f2,192.168.1.8,Phone,,NONE
+UNKNOWN,,,,,ca:f6:11:79:7a:5b,192.168.1.18,Phone,,NONE
